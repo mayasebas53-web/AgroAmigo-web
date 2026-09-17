@@ -8,41 +8,46 @@
 </head>
 <body class="app-shell">
     <header class="topbar">
-        <a class="brand" href="home.html">🌱 AgroAmigo</a>
+        <a class="brand" href="home.php">🌱 AgroAmigo</a>
         <nav class="desktop-nav" aria-label="Navegación principal">
-            <a href="home.html">Inicio</a>
+            <a href="home.php">Inicio</a>
             <a class="active" href="add-plant.html">Mis cultivos</a>
-            <a href="home.html#recomendaciones">Recomendaciones</a>
-            <a href="home.html#clima">Clima</a>
-            <a href="home.html#historial">Historial</a>
+            <a href="home.php#recomendaciones">Recomendaciones</a>
+            <a href="home.php#clima">Clima</a>
+            <a href="home.php#historial">Historial</a>
         </nav>
         <details class="menu-wrapper">
             <summary class="menu-button" aria-label="Abrir menú">
                 <span></span><span></span><span></span>
             </summary>
             <nav class="dropdown-menu" aria-label="Menú móvil">
-                <a href="home.html">Inicio</a>
+                <a href="home.php">Inicio</a>
                 <a href="add-plant.html">Mis cultivos</a>
-                <a href="home.html#recomendaciones">Recomendaciones</a>
-                <a href="home.html#clima">Clima</a>
-                <a href="home.html#historial">Historial</a>
-                <a href="home.html#configuracion">⚙ Configuración</a>
+                <a href="home.php#recomendaciones">Recomendaciones</a>
+                <a href="home.php#clima">Clima</a>
+                <a href="home.php#historial">Historial</a>
+                <a href="home.php#configuracion">⚙ Configuración</a>
             </nav>
         </details>
     </header>
 
     <main class="form-page">
-        <a class="back-link" href="home.html">← Volver al panel</a>
+        <a class="back-link" href="home.php">← Volver al panel</a>
         <section class="plant-card">
             <div class="section-heading">
                 <p class="eyebrow">Mis cultivos</p>
                 <h1>Agregar planta</h1>
                 <p>Registra los datos básicos para comenzar el seguimiento de tu cultivo.</p>
             </div>
-            <form class="full-plant-form">
+            <form class="full-plant-form" action="add-crop.php" method="post" enctype="multipart/form-data">
                 <div class="input-group">
                     <label for="plant-photo">Foto del cultivo</label>
-                    <input type="file" id="plant-photo" name="plant-photo" accept="image/*" required>
+                    <input type="file" id="plant-photo" name="plant-photo" accept="image/*">
+                    <small>Formatos recomendados: JPG, PNG o WEBP. Máximo 5 MB.</small>
+                </div>
+                <div class="input-group">
+                    <label for="crop-name">Nombre del cultivo</label>
+                    <input type="text" id="crop-name" name="crop-name" placeholder="Ej. Mi parcela de tomates" required>
                 </div>
                 <div class="input-group">
                     <label for="crop-type">Tipo de cultivo</label>
@@ -53,12 +58,24 @@
                     <input type="date" id="initial-sowing-date" name="initial-sowing-date" required>
                 </div>
                 <div class="input-group">
-                    <label for="crop-quantity">Área o cantidad</label>
-                    <input type="text" id="crop-quantity" name="crop-quantity" placeholder="Ej. 20 m² o 50 plantas" required>
+                    <label for="plot-size">Área del terreno en m²</label>
+                    <input type="number" id="plot-size" name="plot-size" min="0" step="0.01" placeholder="Ej. 20" required>
                 </div>
                 <div class="input-group">
                     <label for="plot-location">Parcela o lote</label>
                     <input type="text" id="plot-location" name="plot-location" placeholder="Ej. Lote norte" required>
+                </div>
+                <div class="input-group">
+                    <label for="crop-zone">Zona</label>
+                    <input type="text" id="crop-zone" name="crop-zone" placeholder="Ej. Valle del Cauca">
+                </div>
+                <div class="input-group">
+                    <label for="crop-status">Estado del cultivo</label>
+                    <select id="crop-status" name="crop-status" required>
+                        <option value="Activo">Activo</option>
+                        <option value="En riesgo">En riesgo</option>
+                        <option value="Cosechado">Cosechado</option>
+                    </select>
                 </div>
                 <button type="submit" class="btn-login">Guardar cultivo</button>
             </form>
