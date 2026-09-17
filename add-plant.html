@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroAmigo - Agregar planta</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="app-shell">
+    <header class="topbar">
+        <a class="brand" href="home.html">🌱 AgroAmigo</a>
+        <nav class="desktop-nav" aria-label="Navegación principal">
+            <a href="home.html">Inicio</a>
+            <a class="active" href="add-plant.html">Mis cultivos</a>
+            <a href="home.html#recomendaciones">Recomendaciones</a>
+            <a href="home.html#clima">Clima</a>
+            <a href="home.html#historial">Historial</a>
+        </nav>
+        <details class="menu-wrapper">
+            <summary class="menu-button" aria-label="Abrir menú">
+                <span></span><span></span><span></span>
+            </summary>
+            <nav class="dropdown-menu" aria-label="Menú móvil">
+                <a href="home.html">Inicio</a>
+                <a href="add-plant.html">Mis cultivos</a>
+                <a href="home.html#recomendaciones">Recomendaciones</a>
+                <a href="home.html#clima">Clima</a>
+                <a href="home.html#historial">Historial</a>
+                <a href="home.html#configuracion">⚙ Configuración</a>
+            </nav>
+        </details>
+    </header>
+
+    <main class="form-page">
+        <a class="back-link" href="home.html">← Volver al panel</a>
+        <section class="plant-card">
+            <div class="section-heading">
+                <p class="eyebrow">Mis cultivos</p>
+                <h1>Agregar planta</h1>
+                <p>Registra los datos básicos para comenzar el seguimiento de tu cultivo.</p>
+            </div>
+            <form class="full-plant-form">
+                <div class="input-group">
+                    <label for="plant-photo">Foto del cultivo</label>
+                    <input type="file" id="plant-photo" name="plant-photo" accept="image/*" required>
+                </div>
+                <div class="input-group">
+                    <label for="crop-type">Tipo de cultivo</label>
+                    <input type="text" id="crop-type" name="crop-type" placeholder="Ej. Maíz, tomate o papa" required>
+                </div>
+                <div class="input-group">
+                    <label for="initial-sowing-date">Fecha de siembra / germinación</label>
+                    <input type="date" id="initial-sowing-date" name="initial-sowing-date" required>
+                </div>
+                <div class="input-group">
+                    <label for="crop-quantity">Área o cantidad</label>
+                    <input type="text" id="crop-quantity" name="crop-quantity" placeholder="Ej. 20 m² o 50 plantas" required>
+                </div>
+                <div class="input-group">
+                    <label for="plot-location">Parcela o lote</label>
+                    <input type="text" id="plot-location" name="plot-location" placeholder="Ej. Lote norte" required>
+                </div>
+                <button type="submit" class="btn-login">Guardar cultivo</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

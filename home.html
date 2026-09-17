@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroAmigo - Panel de control</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="home.html">🌱 AgroAmigo</a>
+        <nav class="desktop-nav" aria-label="Navegación principal">
+            <a class="active" href="home.html">Inicio</a>
+            <a href="add-plant.html">Mis cultivos</a>
+            <a href="#recomendaciones">Recomendaciones</a>
+            <a href="#clima">Clima</a>
+            <a href="#historial">Historial</a>
+        </nav>
+        <details class="menu-wrapper">
+            <summary class="menu-button" aria-label="Abrir menú">
+                <span></span><span></span><span></span>
+            </summary>
+            <nav class="dropdown-menu" aria-label="Menú móvil">
+                <a href="home.html">Inicio</a>
+                <a href="add-plant.html">Mis cultivos</a>
+                <a href="#recomendaciones">Recomendaciones</a>
+                <a href="#clima">Clima</a>
+                <a href="#historial">Historial</a>
+                <a href="#configuracion">⚙ Configuración</a>
+            </nav>
+        </details>
+    </header>
+
+    <main class="dashboard-page">
+        <section class="dashboard-hero">
+            <div>
+                <p class="eyebrow">Panel de control</p>
+                <h1>Buenos días, agricultor</h1>
+                <p>Todo lo que necesitas para tomar mejores decisiones en tu finca.</p>
+            </div>
+            <a class="primary-action" href="add-plant.html">＋ Agregar planta</a>
+        </section>
+
+        <section class="summary-grid" aria-label="Resumen diario">
+            <article class="stat-card"><span class="card-icon">🌿</span><p>Cultivos activos</p><strong>06</strong><small>+2 este mes</small></article>
+            <article class="stat-card"><span class="card-icon">✅</span><p>En buen estado</p><strong>04</strong><small>67% de tu finca</small></article>
+            <article class="stat-card"><span class="card-icon">💧</span><p>Humedad del suelo</p><strong>68%</strong><small>Condición favorable</small></article>
+            <article class="stat-card"><span class="card-icon">☀️</span><p>Temperatura</p><strong>24°</strong><small>Valle del Cauca</small></article>
+        </section>
+
+        <section class="dashboard-grid">
+            <article class="dashboard-card alert-card">
+                <div class="card-heading"><div><p class="eyebrow">Atención</p><h2>Alertas del día</h2></div><span class="status-dot warning"></span></div>
+                <div class="alert-item"><span class="alert-symbol">!</span><div><strong>Hoy es un buen día para fertilizar</strong><p>Lote #2 · Maíz · Antes de las 4:00 p. m.</p></div></div>
+                <div class="alert-item"><span class="alert-symbol rain">☂</span><div><strong>Lluvia prevista mañana</strong><p>Posponer fertilización del lote de tomates.</p></div></div>
+            </article>
+            <article class="dashboard-card weather-card" id="clima">
+                <div class="card-heading"><div><p class="eyebrow">Condiciones locales</p><h2>Clima actual</h2></div><span class="weather-icon">☀️</span></div>
+                <div class="weather-main"><strong>24°</strong><span>Parcialmente soleado<br><small>Actualizado hace 10 min</small></span></div>
+                <div class="weather-details"><span>💧 Lluvia <b>20%</b></span><span>💨 Viento <b>12 km/h</b></span><span>◌ Humedad <b>68%</b></span></div>
+            </article>
+        </section>
+
+        <section class="module-section">
+            <div class="section-title"><div><p class="eyebrow">Tu operación</p><h2>Explora AgroAmigo</h2></div><span>8 módulos disponibles</span></div>
+            <div class="module-grid">
+                <a class="module-card featured" href="add-plant.html"><span>🌱</span><div><h3>Mis cultivos</h3><p>Registra y monitorea tus plantas.</p></div><b>→</b></a>
+                <article class="module-card" id="recomendaciones"><span>🧪</span><div><h3>Recomendaciones</h3><p>Fertilización, dosis y nutrición.</p></div><b>→</b></article>
+                <article class="module-card"><span>📅</span><div><h3>Calendario</h3><p>Plan de aplicaciones óptimas.</p></div><b>→</b></article>
+                <article class="module-card"><span>☁️</span><div><h3>Clima agrícola</h3><p>Pronóstico y ventana de aplicación.</p></div><b>→</b></article>
+                <article class="module-card" id="historial"><span>📒</span><div><h3>Historial y bitácora</h3><p>Registra aplicaciones y observaciones.</p></div><b>→</b></article>
+                <article class="module-card"><span>📚</span><div><h3>Recursos y guías</h3><p>Fichas de cultivos y fertilizantes.</p></div><b>→</b></article>
+                <article class="module-card"><span>📊</span><div><h3>Reportes</h3><p>Consumo, ahorro e impacto.</p></div><b>→</b></article>
+                <article class="module-card" id="configuracion"><span>⚙️</span><div><h3>Configuración y perfil</h3><p>Tu finca, unidades y alertas.</p></div><b>→</b></article>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
