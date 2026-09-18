@@ -1,0 +1,6 @@
+.env
+.git
+.gitignore
+README.md
+start-local.sh
+Dockerfile
