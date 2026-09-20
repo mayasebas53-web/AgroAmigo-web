@@ -1,3 +1,12 @@
+<?php
+session_start();
+require_once __DIR__ . '/csrf.php';
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: index.html');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,7 +20,7 @@
         <a class="brand" href="home.php">🌱 AgroAmigo</a>
         <nav class="desktop-nav" aria-label="Navegación principal">
             <a href="home.php">Inicio</a>
-            <a class="active" href="add-plant.html">Mis cultivos</a>
+            <a class="active" href="crops.php">Mis cultivos</a>
             <a href="home.php#recomendaciones">Recomendaciones</a>
             <a href="home.php#clima">Clima</a>
             <a href="home.php#historial">Historial</a>
@@ -22,7 +31,7 @@
             </summary>
             <nav class="dropdown-menu" aria-label="Menú móvil">
                 <a href="home.php">Inicio</a>
-                <a href="add-plant.html">Mis cultivos</a>
+                <a href="crops.php">Mis cultivos</a>
                 <a href="home.php#recomendaciones">Recomendaciones</a>
                 <a href="home.php#clima">Clima</a>
                 <a href="home.php#historial">Historial</a>
@@ -40,6 +49,7 @@
                 <p>Registra los datos básicos para comenzar el seguimiento de tu cultivo.</p>
             </div>
             <form class="full-plant-form" action="add-crop.php" method="post" enctype="multipart/form-data">
+                <?= csrf_field() ?>
                 <div class="input-group">
                     <label for="plant-photo">Foto del cultivo</label>
                     <input type="file" id="plant-photo" name="plant-photo" accept="image/*">

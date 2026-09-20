@@ -316,6 +316,12 @@ body {
     text-decoration: underline;
 }
 
+.section-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
 .crops-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -376,6 +382,21 @@ body {
     font-weight: 700;
 }
 
+.crop-status-active {
+    background: #e4f0e7;
+    color: #2c5e3b;
+}
+
+.crop-status-risk {
+    background: #fff1cf;
+    color: #a46d0d;
+}
+
+.crop-status-inactive {
+    background: #f1ece1;
+    color: #806b3f;
+}
+
 .crop-details {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -410,6 +431,156 @@ body {
 
 .empty-crops > span {
     font-size: 30px;
+}
+
+.crop-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid #e3ebe4;
+}
+
+.crop-actions form {
+    display: inline;
+}
+
+.text-button {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #2c5e3b;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.text-button:hover {
+    text-decoration: underline;
+}
+
+.text-button.danger {
+    color: #a04b42;
+}
+
+.delete-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    width: min(100% - 32px, 440px);
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    box-shadow: 0 20px 60px rgba(25, 48, 31, 0.25);
+    transform: translate(-50%, -50%);
+}
+
+.delete-dialog::backdrop {
+    background: rgba(24, 39, 28, 0.48);
+}
+
+.delete-dialog-card {
+    position: relative;
+    padding: 30px;
+    background: #ffffff;
+    color: #34493a;
+}
+
+.delete-dialog-card h2 {
+    margin-bottom: 12px;
+    color: #234b2f;
+    font-size: 24px;
+}
+
+.delete-dialog-card > p:not(.eyebrow):not(.delete-warning) {
+    color: #66736a;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.delete-warning {
+    margin-top: 16px;
+    color: #a04b42;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.dialog-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    background: transparent;
+    color: #66736a;
+    font-size: 25px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.secondary-button,
+.danger-button {
+    padding: 10px 14px;
+    border-radius: 6px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.secondary-button {
+    border: 1px solid #c7d5ca;
+    background: #ffffff;
+    color: #2c5e3b;
+}
+
+.danger-button {
+    border: 1px solid #a04b42;
+    background: #a04b42;
+    color: #ffffff;
+}
+
+.library-page {
+    width: min(100% - 48px, 1180px);
+    margin: 0 auto;
+    padding: 120px 0 64px;
+}
+
+.library-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 28px;
+    margin-bottom: 32px;
+}
+
+.library-heading h1 {
+    margin-bottom: 10px;
+    color: #234b2f;
+    font-size: clamp(32px, 5vw, 50px);
+    line-height: 1.05;
+}
+
+.library-heading p:last-child {
+    color: #66736a;
+    font-size: 16px;
+}
+
+.library-grid {
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .empty-crops .primary-action {
@@ -537,7 +708,8 @@ body {
     }
 
     .dashboard-page,
-    .form-page {
+    .form-page,
+    .library-page {
         width: min(100% - 32px, 760px);
     }
 
@@ -549,6 +721,12 @@ body {
     .primary-action {
         width: 100%;
         text-align: center;
+    }
+
+    .section-actions,
+    .library-heading {
+        align-items: start;
+        flex-direction: column;
     }
 
     .plant-card {
