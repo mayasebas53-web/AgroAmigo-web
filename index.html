@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="login-toast" class="login-toast" role="alert" aria-live="assertive"></div>
+
     <div class="login-container">
         <h1>🌱 AgroAmigo</h1>
         <p>Inicia sesión para gestionar tus plantas</p>
@@ -27,5 +29,26 @@
 
         <p class="account-prompt">¿No tienes una cuenta? <a href="signup.html">Crear una cuenta</a></p>
     </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const toast = document.getElementById('login-toast');
+        const messages = {
+            short_password: 'La contraseña debe tener al menos 8 caracteres.',
+            invalid_credentials: 'Correo o contraseña incorrectos.',
+            registered: 'Cuenta creada correctamente. Ya puedes iniciar sesión.'
+        };
+
+        const errorKey = params.get('error');
+        const registered = params.get('registered');
+
+        if (errorKey && messages[errorKey]) {
+            toast.textContent = messages[errorKey];
+            toast.classList.add('show');
+        } else if (registered === '1' && messages.registered) {
+            toast.textContent = messages.registered;
+            toast.classList.add('show');
+        }
+    </script>
 </body>
 </html>

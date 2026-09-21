@@ -9,8 +9,15 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
+
 if (!filter_var($email, FILTER_VALIDATE_EMAIL) || $password === '') {
-    exit('Correo o contraseña incorrectos.');
+    header('Location: index.html?error=invalid_credentials');
+    exit;
+}
+
+if (strlen($password) < 8) {
+    header('Location: index.html?error=short_password');
+    exit;
 }
 
 $connection = supabase_connection();
@@ -22,7 +29,8 @@ $result = pg_query_params(
 $user = $result ? pg_fetch_assoc($result) : false;
 
 if (!$user || !password_verify($password, $user['contraseña'])) {
-    exit('Correo o contraseña incorrectos.');
+    header('Location: index.html?error=invalid_credentials');
+    exit;
 }
 
 session_regenerate_id(true);
