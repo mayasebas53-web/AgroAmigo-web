@@ -1,9 +1,9 @@
 FROM php:8.3-apache
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libpq-dev \
+    && apt-get install -y --no-install-recommends libpq5 libpq-dev \
     && docker-php-ext-install pgsql pdo_pgsql \
-    && apt-get purge -y --auto-remove libpq-dev \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && a2enmod headers
 
