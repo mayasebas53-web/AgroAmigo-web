@@ -7,13 +7,13 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="login-toast" class="login-toast" role="alert" aria-live="assertive"></div>
+    <div id="login-toast" class="login-toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
     <div class="login-container">
         <h1>🌱 AgroAmigo</h1>
         <p>Inicia sesión para gestionar tus plantas</p>
         
-        <form action="login.php" method="post">
+        <form id="login-form" action="login.php" method="post" novalidate>
             <div class="input-group">
                 <label for="email">Correo electrónico</label>
                 <input type="email" id="email" name="email" placeholder="usuario@correo.com" required>
@@ -31,23 +31,60 @@
     </div>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
         const toast = document.getElementById('login-toast');
+        const form = document.getElementById('login-form');
+        const emailInput = document.getElementById('email');
         const messages = {
-            short_password: 'La contraseña debe tener al menos 8 caracteres.',
-            invalid_credentials: 'Correo o contraseña incorrectos.',
+            missing_email: 'Escribe tu correo electrónico para continuar.',
+            missing_password: 'Escribe tu contraseña para continuar.',
+            invalid_email: 'El correo debe tener el formato nombre@dominio.com.',
+            email_not_found: 'No encontramos ninguna cuenta con este correo.',
+            incorrect_password: 'La contraseña es incorrecta.',
+            server_error: 'Algo salió mal, inténtalo de nuevo en unos minutos.',
             registered: 'Cuenta creada correctamente. Ya puedes iniciar sesión.'
         };
 
+        const params = new URLSearchParams(window.location.search);
         const errorKey = params.get('error');
         const registered = params.get('registered');
 
+        if (params.has('email')) {
+            emailInput.value = params.get('email') || '';
+        }
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            window.setTimeout(() => toast.classList.remove('show'), 6500);
+        }
+
         if (errorKey && messages[errorKey]) {
-            toast.textContent = messages[errorKey];
-            toast.classList.add('show');
-        } else if (registered === '1' && messages.registered) {
-            toast.textContent = messages.registered;
-            toast.classList.add('show');
+            showToast(messages[errorKey]);
+        } else if (registered === '1') {
+            showToast(messages.registered);
+        }
+
+        form.addEventListener('submit', (event) => {
+            const passwordInput = document.getElementById('password');
+            let message = '';
+
+            if (!emailInput.value.trim()) {
+                message = messages.missing_email;
+            } else if (!emailInput.validity.valid) {
+                message = messages.invalid_email;
+            } else if (!passwordInput.value) {
+                message = messages.missing_password;
+            }
+
+            if (message) {
+                event.preventDefault();
+                showToast(message);
+                (message === messages.missing_email || message === messages.invalid_email ? emailInput : passwordInput).focus();
+            }
+        });
+
+        if (errorKey || registered) {
+            window.history.replaceState({}, document.title, window.location.pathname);
         }
     </script>
 </body>

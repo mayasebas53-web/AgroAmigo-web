@@ -2,6 +2,13 @@
 session_start();
 require_once __DIR__ . '/database.php';
 
+function redirect_login_error(string $error, string $email = ''): never
+{
+    $query = http_build_query(['error' => $error, 'email' => $email]);
+    header('Location: index.html?' . $query);
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: index.html');
     exit;
@@ -10,27 +17,40 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 
-if (!filter_var($email, FILTER_VALIDATE_EMAIL) || $password === '') {
-    header('Location: index.html?error=invalid_credentials');
-    exit;
+if ($email === '') {
+    redirect_login_error('missing_email');
 }
 
-if (strlen($password) < 8) {
-    header('Location: index.html?error=short_password');
-    exit;
+if ($password === '') {
+    redirect_login_error('missing_password', $email);
 }
 
-$connection = supabase_connection();
-$result = pg_query_params(
-    $connection,
-    'SELECT id_usuario, nombre, contraseña FROM usuarios WHERE correo_electronico = $1',
-    [$email]
-);
-$user = $result ? pg_fetch_assoc($result) : false;
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    redirect_login_error('invalid_email', $email);
+}
 
-if (!$user || !password_verify($password, $user['contraseña'])) {
-    header('Location: index.html?error=invalid_credentials');
-    exit;
+try {
+    $connection = supabase_connection(true);
+    $result = pg_query_params(
+        $connection,
+        'SELECT id_usuario, nombre, contraseña FROM usuarios WHERE correo_electronico = $1',
+        [$email]
+    );
+
+    if (!$result) {
+        throw new RuntimeException('No fue posible consultar la cuenta.');
+    }
+
+    $user = pg_fetch_assoc($result);
+    if (!$user) {
+        redirect_login_error('email_not_found', $email);
+    }
+
+    if (!password_verify($password, $user['contraseña'])) {
+        redirect_login_error('incorrect_password', $email);
+    }
+} catch (Throwable $exception) {
+    redirect_login_error('server_error', $email);
 }
 
 session_regenerate_id(true);

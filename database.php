@@ -23,11 +23,15 @@ function load_environment_file(): void
 
 load_environment_file();
 
-function supabase_connection(): PgSql\Connection
+function supabase_connection(bool $throwOnError = false): PgSql\Connection
 {
     $requiredVariables = ['SUPA_HOST', 'SUPA_USERNAME', 'SUPA_PASSWORD'];
     foreach ($requiredVariables as $variable) {
         if (!getenv($variable)) {
+            if ($throwOnError) {
+                throw new RuntimeException('No fue posible conectar con la base de datos.');
+            }
+
             http_response_code(500);
             exit("Falta configurar la variable de entorno {$variable}.");
         }
@@ -43,6 +47,10 @@ function supabase_connection(): PgSql\Connection
     ));
 
     if (!$connection) {
+        if ($throwOnError) {
+            throw new RuntimeException('No fue posible conectar con la base de datos.');
+        }
+
         http_response_code(500);
         exit('No fue posible conectar con Supabase. Revisa las variables de entorno.');
     }

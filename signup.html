@@ -7,11 +7,13 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="login-toast" class="login-toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
     <div class="login-container">
         <h1>🌱 AgroAmigo</h1>
         <p>Crea tu cuenta para empezar a cuidar tus plantas</p>
 
-        <form action="signup.php" method="post">
+        <form id="signup-form" action="signup.php" method="post" novalidate>
             <div class="input-group">
                 <label for="name">Nombre</label>
                 <input type="text" id="name" name="name" placeholder="Tu nombre" required>
@@ -37,5 +39,76 @@
 
         <p class="account-prompt">¿Ya tienes una cuenta? <a href="index.html">Iniciar sesión</a></p>
     </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const toast = document.getElementById('login-toast');
+        const form = document.getElementById('signup-form');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const confirmationInput = document.getElementById('confirm-password');
+        const messages = {
+            missing_name: 'Escribe tu nombre para crear la cuenta.',
+            missing_email: 'Escribe tu correo electrónico para continuar.',
+            invalid_email: 'El correo debe tener el formato nombre@dominio.com.',
+            missing_password: 'Escribe una contraseña para continuar.',
+            short_password: 'La contraseña debe tener al menos 8 caracteres.',
+            missing_confirmation: 'Confirma tu contraseña para continuar.',
+            password_mismatch: 'Las contraseñas no coinciden.',
+            email_registered: 'Este correo ya tiene una cuenta.',
+            server_error: 'Algo salió mal, inténtalo de nuevo en unos minutos.'
+        };
+
+        nameInput.value = params.get('name') || '';
+        emailInput.value = params.get('email') || '';
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            window.setTimeout(() => toast.classList.remove('show'), 6500);
+        }
+
+        if (params.get('error') && messages[params.get('error')]) {
+            showToast(messages[params.get('error')]);
+        }
+
+        form.addEventListener('submit', (event) => {
+            let message = '';
+            let field = nameInput;
+
+            if (!nameInput.value.trim()) {
+                message = messages.missing_name;
+            } else if (!emailInput.value.trim()) {
+                message = messages.missing_email;
+                field = emailInput;
+            } else if (!emailInput.validity.valid) {
+                message = messages.invalid_email;
+                field = emailInput;
+            } else if (!passwordInput.value) {
+                message = messages.missing_password;
+                field = passwordInput;
+            } else if (passwordInput.value.length < 8) {
+                message = messages.short_password;
+                field = passwordInput;
+            } else if (!confirmationInput.value) {
+                message = messages.missing_confirmation;
+                field = confirmationInput;
+            } else if (passwordInput.value !== confirmationInput.value) {
+                message = messages.password_mismatch;
+                field = confirmationInput;
+            }
+
+            if (message) {
+                event.preventDefault();
+                showToast(message);
+                field.focus();
+            }
+        });
+
+        if (params.has('error')) {
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    </script>
 </body>
 </html>
