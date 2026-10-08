@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="crop-toast" class="login-toast success-toast" role="status" aria-live="polite" aria-atomic="true"></div>
     <header class="topbar">
         <a class="brand" href="home.php">🌱 AgroAmigo</a>
         <nav class="desktop-nav" aria-label="Navegación principal">
@@ -77,5 +78,18 @@
             </div>
         </section>
     </main>
+    <script>
+        const cropAdded = new URLSearchParams(window.location.search).get('crop_added');
+        if (cropAdded === '1') {
+            const toast = document.getElementById('crop-toast');
+            toast.textContent = 'Cultivo agregado correctamente.';
+            toast.classList.add('show');
+            window.setTimeout(() => toast.classList.remove('show'), 6500);
+
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.delete('crop_added');
+            window.history.replaceState({}, document.title, currentUrl.pathname + currentUrl.search + currentUrl.hash);
+        }
+    </script>
 </body>
 </html>

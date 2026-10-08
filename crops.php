@@ -35,12 +35,26 @@ while ($crop = pg_fetch_assoc($result)) {
         'En riesgo' => 'crop-status-risk',
         default => 'crop-status-inactive',
     };
-    $nextStatus = $crop['estado_cultivo'] === 'Activo' ? 'Cosechado' : 'Activo';
-    $statusAction = $crop['estado_cultivo'] === 'Activo' ? 'Marcar inactivo' : 'Activar';
+    $csrfField = csrf_field();
+    $statusTransition = match ($crop['estado_cultivo']) {
+        'Activo' => ['status' => 'Cosechado', 'label' => 'Marcar cosechado'],
+        'En riesgo' => ['status' => 'Activo', 'label' => 'Marcar activo'],
+        default => null,
+    };
+    $statusActionForm = '';
+    if ($statusTransition !== null) {
+        $statusActionForm = <<<HTML
+                    <form action="update-crop-status.php" method="post">
+                        {$csrfField}
+                        <input type="hidden" name="crop-id" value="{$cropId}">
+                        <input type="hidden" name="status" value="{$statusTransition['status']}">
+                        <button class="text-button" type="submit">{$statusTransition['label']}</button>
+                    </form>
+HTML;
+    }
     $date = (new DateTimeImmutable($crop['fecha_siembra']))->format('d/m/Y');
     $area = $crop['tamaño_terreno'] !== null ? htmlspecialchars($crop['tamaño_terreno'], ENT_QUOTES, 'UTF-8') . ' m²' : 'Área no indicada';
     $placeholderEmoji = crop_placeholder_emoji($crop['tipo_cultivo'], $cropId);
-    $csrfField = csrf_field();
     $image = $crop['tiene_foto'] === 't' ? '<img src="crop-image.php?id=' . $cropId . '" alt="Foto de ' . $cropName . '" class="crop-photo">' : '<div class="crop-photo crop-photo-empty" aria-label="Este cultivo no tiene foto">' . $placeholderEmoji . '</div>';
 
     $cropCards .= <<<HTML
@@ -59,12 +73,7 @@ while ($crop = pg_fetch_assoc($result)) {
                 </dl>
                 <div class="crop-actions">
                     <a class="section-link" href="edit-crop.php?id={$cropId}">Editar</a>
-                    <form action="update-crop-status.php" method="post">
-                        {$csrfField}
-                        <input type="hidden" name="crop-id" value="{$cropId}">
-                        <input type="hidden" name="status" value="{$nextStatus}">
-                        <button class="text-button" type="submit">{$statusAction}</button>
-                    </form>
+                    {$statusActionForm}
                     <form id="delete-form-{$cropId}" action="delete-crop.php" method="post">
                         {$csrfField}
                         <input type="hidden" name="crop-id" value="{$cropId}">
